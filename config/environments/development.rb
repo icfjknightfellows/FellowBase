@@ -53,6 +53,23 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+
+  ActionMailer::Base.smtp_settings = {
+    :user_name => ENV['EMAIL_USERNAME'],
+    :password => ENV['EMAIL_PASSWORD'],
+    :domain => 'gmail',
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
+
+  ActionMailer::Base.default_options = {
+    :from => ENV['EMAIL_FROM_ADDRESS']
+  }
+
   AIRTABLE_BASE_URL = "https://api.airtable.com/v0/#{ENV['AIRTABLE_APP_KEY']}"
   IMPACT_MONITOR_URL = "http://impactmonitor.net/app/api"
 end

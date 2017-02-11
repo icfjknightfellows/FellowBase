@@ -14,4 +14,6 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
+//= require ./vendors/jquery.noty.packaged.min.js
+//= require ./app/notiy.js
 //= require_tree .

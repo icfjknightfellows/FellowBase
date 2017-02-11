@@ -36,11 +36,11 @@ class AddMaterializedView < ActiveRecord::Migration[5.0]
           ON e.event_id = da.event_id
       INNER JOIN ref_impact_types AS it
         ON e.impact_type_id = it.ref_impact_type_id
-      RIGHT JOIN projects AS p
+      INNER JOIN projects AS p
         ON e.project_id = p.project_id
-      RIGHT JOIN ref_partners AS rp
+      INNER JOIN ref_partners AS rp
         ON e.partner_id = rp.ref_partner_id
-      RIGHT JOIN users as u
+      INNER JOIN users as u
         ON e.user_id = u.user_id
       INNER JOIN trackable_metrics as tm
         ON tm.asset_id = da.digital_asset_id

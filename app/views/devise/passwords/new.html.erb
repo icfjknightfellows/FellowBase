@@ -1,0 +1,19 @@
+<div class="container signin-page">
+  <div class='col-sm-4 col-sm-offset-4 logo'></div>
+  <div class="clearfix"></div>
+  <div class='col-sm-4 col-sm-offset-4 card'>
+    <h2>Forgot your password?</h2>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= devise_error_messages! %>
+
+      <div class="field forgot-password-email">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true %>
+      </div>
+
+      <div class="actions forgot-password-submit">
+        <%= f.submit "Send me reset password instructions" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -5,7 +5,7 @@ var dimensions = [
   {value: 'event_name', title: 'Event Name'},
   {value: 'media', title: 'Media'},
   {value: 'topic', title: 'Topic'},
-  {value: 'impact_type_name', title: 'Impact Type'},
+  {value: 'impact_type', title: 'Impact Type'},
   {value: 'partner_name', title: 'Partner'}
 ];
 
@@ -34,35 +34,30 @@ var reduce = function(row, memo) {
   return memo;
 };
 
+var genreic_template = function (val, row) {
+  var v = val.toFixed(2);
+  return v === "0.00" ? "<span class='text-muted'>" +v+ "<span>" : v;
+}
+
 var calculations = [
   {
     title: 'Facebook Likes', value: 'fbLikes',
-    template: function(val, row) {
-      return val.toFixed(2)
-    }
+    template: genreic_template
   },
   {
     title: 'Facebook Shares', value: 'fbShares',
-    template: function(val, row) {
-      return val.toFixed(2)
-    }
+    template: genreic_template
   },
   {
     title: 'Facebook Comments', value: 'fbComments',
-    template: function(val, row) {
-      return val.toFixed(2)
-    }
+    template: genreic_template
   },
   {
     title: 'Twitter Mentions', value: 'twMentions',
-    template: function(val, row) {
-      return val.toFixed(2)
-    }
+    template: genreic_template
   },
   {
     title: 'Google Shares', value: 'googleShares',
-    template: function(val, row) {
-      return val.toFixed(2)
-    }
+    template: genreic_template
   }
 ];

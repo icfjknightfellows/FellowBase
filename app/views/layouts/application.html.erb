@@ -1,14 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>ImpactTrackerV3</title>
-    <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-
-  <body>
+<head>
+  <title>Impact Tracker</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <% unless controller_name == 'sessions'%>
+    <%= render partial: "layouts/header" %>
+  <% end  %>
+  <div class='body'>
     <%= yield %>
-  </body>
+  </div>
+
+  <% config = {} %>
+  <% if notice.present? %>
+    <% config = {text: notice, notify: "success"} %>
+  <% end %>
+  <% if alert.present? %>
+    <% config = {text: alert, notify: "error"} %>
+  <% end %>
+
+  <script type="text/javascript">
+    var notice = <%= config.to_json.html_safe %>;
+    if (notice.notify){
+      generate_notify(notice);
+    }
+  </script>
+</body>
 </html>
