@@ -36,6 +36,38 @@ class ImpactMonitorApi
     end
 
     # Item
+    def get_overview(item_id)
+      url = "#{IMPACT_MONITOR_URL}/items.php"
+      response = RestClient::Request.execute(
+        method: "get",
+        url: url,
+        headers: {
+          params: {
+            action: "overview",
+            api_key: ENV["IMPACT_MONITOR_KEY"],
+            item_id: item_id
+          }
+        }
+      )
+      return JSON.parse(response)
+    end
+
+    def get_tweets(item_id)
+      url = "#{IMPACT_MONITOR_URL}/items.php"
+      response = RestClient::Request.execute(
+        method: "get",
+        url: url,
+        headers: {
+          params: {
+            action: "list_tweets",
+            api_key: ENV["IMPACT_MONITOR_KEY"],
+            item_id: item_id
+          }
+        }
+      )
+      return JSON.parse(response)
+    end
+
     def get_social_shares(item_id)
       url = "#{IMPACT_MONITOR_URL}/items.php"
       response = RestClient::Request.execute(

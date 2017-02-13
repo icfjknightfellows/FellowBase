@@ -10,5 +10,4 @@ class HourlyWorker
     Airtable::PartnerWorker.perform_at(7.second.from_now)
     Airtable::UserWorker.perform_at(9.second.from_now)
   end
-
 end

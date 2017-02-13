@@ -48,6 +48,8 @@ class DigitalAsset < ActiveRecord::Base
           asset = DigitalAsset.create(attrs)
           sleep 0.5.second
           TrackableMetricSocialShareWorker.perform_at(1.second.from_now, asset.item_id)
+          TrackableMetricTwitterWorker.perform_at(2.second.from_now, asset.item_id)
+          ItemOverviewWorker.perform_at(3.second.from_now, asset.item_id)
         end
       end
       asset
@@ -88,6 +90,8 @@ class DigitalAsset < ActiveRecord::Base
     def initiate_tracker_worker
       if self.last_update_unixtime_changed?
         TrackableMetricSocialShareWorker.perform_at(1.second.from_now, self.item_id)
+        TrackableMetricTwitterWorker.perform_at(2.second.from_now, self.item_id)
+        ItemOverviewWorker.perform_at(3.second.from_now, self.item_id)
       end
       true
     end

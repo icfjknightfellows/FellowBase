@@ -30,4 +30,12 @@ class Report < ActiveRecord::Base
   #VALIDATIONS
   #CALLBACKS
   #FUNCTIONS
+
+  class << self
+    def refresh
+      Report.connection.execute("REFRESH MATERIALIZED VIEW digital_asset_report;")
+    end
+  end
+
+
 end
