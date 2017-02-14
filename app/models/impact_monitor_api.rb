@@ -36,6 +36,23 @@ class ImpactMonitorApi
     end
 
     # Item
+    def update_item(item_id, item_string)
+      url = "#{IMPACT_MONITOR_URL}/items.php"
+      response = RestClient::Request.execute(
+        method: "get",
+        url: url,
+        headers: {
+          params: {
+            action: "update",
+            api_key: ENV["IMPACT_MONITOR_KEY"],
+            item: item_string,
+            item_id: item_id
+          }
+        }
+      )
+      return JSON.parse(response)
+    end
+
     def get_overview(item_id)
       url = "#{IMPACT_MONITOR_URL}/items.php"
       response = RestClient::Request.execute(

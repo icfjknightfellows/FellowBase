@@ -2,11 +2,12 @@
 
 var dimensions = [
   {value: 'fellow', title: 'Fellow'},
+  {value: 'project_name', title: 'Project'},
+  {value: 'partner_name', title: 'Partner'},
   {value: 'event_name', title: 'Event Name'},
-  {value: 'media', title: 'Media'},
-  {value: 'topic', title: 'Topic'},
   {value: 'impact_type', title: 'Impact Type'},
-  {value: 'partner_name', title: 'Partner'}
+  {value: 'media', title: 'Media'},
+  {value: 'topic', title: 'Topic'}
 ];
 
 var reduce = function(row, memo) {

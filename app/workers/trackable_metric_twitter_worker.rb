@@ -23,6 +23,9 @@ class TrackableMetricTwitterWorker
       retweet_count = retweet_count || 0
       TrackableMetric.create_or_update(response["item_id"], asset.digital_asset_id, "twitter", "retweets", retweet_count)
     else
+      errors = asset.custom_errors || ""
+      errors = errors == "" ? "Impact Monitor: #{response["message"]} for twitter data." : "#{errors}\n\n Impact Monitor: #{response["message"]} for twitter data."
+      asset.update_attribute(:custom_errors, errors)
     end
   end
 

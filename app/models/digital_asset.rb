@@ -28,15 +28,17 @@ class DigitalAsset < ActiveRecord::Base
   # has_many :trackable_metrics, primary_key: "digital_asset_id", foreign_key: "digital_asset_id", dependent: :destroy
   #VALIDATIONS
   #CALLBACKS
-  after_destroy :delete_item_from_channel
-  after_update :initiate_tracker_worker
-  after_update :upload_errors_to_airtable
-  #FUNCTIONS
 
-  def update_last_requested_unixtime
-    self.last_requested_unixtime = Time.now.to_i
-    self.save
-  end
+  after_destroy :delete_item_from_channel
+
+  after_update :update_dates, if: :last_update_unixtime_changed?
+  after_update :initiate_tracker_worker, if: :last_update_unixtime_changed?
+
+  after_update :upload_errors_to_airtable, if: :custom_errors_changed?
+
+  before_update :update_asset_url_in_impact_monitor, if: :asset_changed?
+
+  #FUNCTIONS
 
   class << self
     def create_or_update(attrs)
@@ -63,36 +65,22 @@ class DigitalAsset < ActiveRecord::Base
           ItemOverviewWorker.perform_at(3.second.from_now, asset.item_id)
 
           # Update the airtable data.
-          asset.update_last_requested_unixtime
-          updated_at = Time.at(asset.last_requested_unixtime).to_datetime
-          update_time(asset.digital_asset_id, updated_at, updated_at)
+          asset.update_attribute(:last_requested_unixtime, Time.now.to_i)
+          update_time(asset.digital_asset_id, asset.last_requested_unixtime, asset.last_requested_unixtime)
         end
       end
       asset
     end
 
     def update_time(asset_id, by_pykih, by_impact_monitor)
-      update_record_in_airtable(asset_id, {
-        "last_update_by_pykih" => by_pykih,
-        "last_update_by_impact_monitor" => by_impact_monitor,
+      # by_pykih and by_impact_monitor are timestamps.
+      by_pykih = Time.at(by_pykih).to_datetime
+      by_impact_monitor = Time.at(by_impact_monitor).to_datetime
+
+      Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, asset_id, {
+        "last update by pykih" => by_pykih,
+        "last update by impact monitor" => by_impact_monitor,
       })
-    end
-
-    def update_record_in_airtable(id, data)
-      # Pass in api key to client.
-      client = Airtable::Client.new(ENV["AIRTABLE_API_KEY"])
-
-      # Pass in the app key and table name.
-      table = client.table(ENV["AIRTABLE_APP_KEY"], "digital_assets")
-
-      # Find the record with the given id.
-      record = table.find(id)
-
-      # Update data
-      data.each do |k,v|
-        record[k] = v
-      end
-      table.update(record)
     end
 
     private
@@ -104,19 +92,19 @@ class DigitalAsset < ActiveRecord::Base
           i_o = item_obj.first
           if i_o["success"]
             monitored_item_id = i_o["monitored_item_id"]
-            update_record_in_airtable(asset_id, {
+           Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, asset_id, {
               "tracked" => true
             })
             return { success: true, item_id: monitored_item_id }
           else
-            update_record_in_airtable(asset_id, {
+            Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, asset_id, {
               "tracked" => false,
               "errors" => "Could not add the link in impact monitor. Note: Mobile links are not allowed."
             })
             return { success: false }
           end
         else
-          update_record_in_airtable(asset_id, {
+          Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, asset_id, {
             "tracked" => false,
             "errors" => "Could not add the link in impact monitor.  Note: Mobile links are not allowed."
           })
@@ -131,7 +119,7 @@ class DigitalAsset < ActiveRecord::Base
     def delete_item_from_channel
       if self.item_id.present?
         response = ImpactMonitorApi.delete_item(self.item_id)
-        update_record_in_airtable(self.digital_asset_id, {
+        Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, self.digital_asset_id, {
           "tracked" => false,
           "errors" => "Removing the item form the system."
         })
@@ -139,28 +127,34 @@ class DigitalAsset < ActiveRecord::Base
       true
     end
 
-    def initiate_tracker_worker
-      if self.last_update_unixtime_changed?
-        # Updating dates in airtable.
-        self.update_last_requested_unixtime
-        by_pykih = Time.at(self.last_requested_unixtime).to_datetime
-        by_impact_monitor = Time.at(self.last_update_unixtime).to_datetime
-        DigitalAsset.update_time(self.digital_asset_id, by_pykih, by_impact_monitor)
-
-        # Initiate the workers.
-        TrackableMetricSocialShareWorker.perform_at(1.second.from_now, self.item_id)
-        TrackableMetricTwitterWorker.perform_at(2.second.from_now, self.item_id)
-        ItemOverviewWorker.perform_at(3.second.from_now, self.item_id)
+    def update_asset_url_in_impact_monitor
+      response = ImpactMonitorApi.update_item(self.item_id, self.asset)
+      if response["success"]
+        return true
+      else
+        return false
       end
       true
     end
 
+    def update_dates
+      self.update_column(:last_requested_unixtime, Time.now.to_i)
+      DigitalAsset.update_time(self.digital_asset_id, self.last_requested_unixtime, self.last_update_unixtime)
+      true
+    end
+
+    def initiate_tracker_worker
+      # Initiate the workers.
+      TrackableMetricSocialShareWorker.perform_at(1.second.from_now, self.item_id)
+      TrackableMetricTwitterWorker.perform_at(2.second.from_now, self.item_id)
+      ItemOverviewWorker.perform_at(3.second.from_now, self.item_id)
+      true
+    end
+
     def upload_errors_to_airtable
-      if self.custom_errors_changed?
-        DigitalAsset.update_record_in_airtable(self.digital_asset_id, {
-          "errors" => self.custom_errors
-        })
-      end
+      Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, self.digital_asset_id, {
+        "errors" => self.custom_errors
+      })
       true
     end
 
