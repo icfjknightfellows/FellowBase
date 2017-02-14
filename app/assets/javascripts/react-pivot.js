@@ -1,4 +1,4 @@
-//= require ./vendors/react-pivot-standalone-1.18.2.min.js
+//= require ./vendors/react-pivot-1.18.3.min.js
 
 var dimensions = [
   {value: 'fellow', title: 'Fellow'},
