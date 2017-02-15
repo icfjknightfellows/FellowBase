@@ -3,7 +3,7 @@ pg: &pg
   encoding: unicode
   pool: 30
 
-production:
+development:
   <<: *pg
   port: 5432
   database: impact_tracker_v3
@@ -11,10 +11,10 @@ production:
   username: developer
   password: developer
 
-# production:
-#   <<: *pg
-#   port: <%= ENV["DB_PORT"] %>
-#   database: <%= ENV["DB_NAME"] %>
-#   host: <%= ENV["DB_HOST"] %>
-#   username: <%= ENV["DB_USERNAME"] %>
-#   password: <%= ENV["DB_PASSWORD"] %>
+production:
+  <<: *pg
+  port: <%= ENV["DB_PORT"] %>
+  database: <%= ENV["DB_NAME"] %>
+  host: <%= ENV["DB_HOST"] %>
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
