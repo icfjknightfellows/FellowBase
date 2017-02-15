@@ -78,8 +78,8 @@ class DigitalAsset < ActiveRecord::Base
       by_impact_monitor = Time.at(by_impact_monitor).to_datetime
 
       Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, asset_id, {
-        "last update by pykih" => by_pykih,
-        "last update by impact monitor" => by_impact_monitor,
+        "last update requested by pykih" => by_pykih,
+        "last data updated by impact monitor" => by_impact_monitor,
       })
     end
 
@@ -99,14 +99,16 @@ class DigitalAsset < ActiveRecord::Base
           else
             Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, asset_id, {
               "tracked" => false,
-              "errors" => "Could not add the link in impact monitor. Note: Mobile links are not allowed."
+              "last update requested by pykih" => Time.now,
+              "errors" => "Impact Monitor: Could not add the link."
             })
             return { success: false }
           end
         else
           Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, asset_id, {
             "tracked" => false,
-            "errors" => "Could not add the link in impact monitor.  Note: Mobile links are not allowed."
+            "last update requested by pykih" => Time.now,
+            "errors" => "Impact Monitor: Could not add the link."
           })
           return { success: false }
         end
@@ -144,6 +146,7 @@ class DigitalAsset < ActiveRecord::Base
     end
 
     def initiate_tracker_worker
+      self.update_column(:custom_errors, "")
       # Initiate the workers.
       TrackableMetricSocialShareWorker.perform_at(1.second.from_now, self.item_id)
       TrackableMetricTwitterWorker.perform_at(2.second.from_now, self.item_id)
