@@ -9,7 +9,7 @@
 .reactPivot-csvExport,
 .reactPivot-columnControl {
   margin-left: 0px !important;
-  width: 15%;
+  width: 20%;
 }
 
 .reactPivot-csvExport button {
@@ -17,6 +17,6 @@
 }
 
 .reactPivot-dimensions {
-  width: 85%;
+  width: 80%;
 }
 
