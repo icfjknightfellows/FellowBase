@@ -1,13 +1,13 @@
 //= require ./vendors/react-pivot-1.18.3.min.js
 
 var dimensions = [
-  {value: 'fellow', title: 'Fellow'},
-  {value: 'project_name', title: 'Project'},
-  {value: 'partner_name', title: 'Partner'},
-  {value: 'event_name', title: 'Event Name'},
-  {value: 'impact_type', title: 'Impact Type'},
-  {value: 'media', title: 'Media'},
-  {value: 'topic', title: 'Topic'}
+  {value: 'fellow', title: 'Fellow' , className: 'deminsion'},
+  {value: 'project_name', title: 'Project' , className: 'deminsion'},
+  {value: 'partner_name', title: 'Partner' , className: 'deminsion'},
+  {value: 'event_name', title: 'Event Name' , className: 'deminsion'},
+  {value: 'impact_type', title: 'Impact Type' , className: 'deminsion'},
+  {value: 'media', title: 'Media' , className: 'deminsion'},
+  {value: 'topic', title: 'Topic' , className: 'deminsion'}
 ];
 
 var reduce = function(row, memo) {
@@ -86,62 +86,77 @@ var genreic_template = function (val, row) {
 var calculations = [
   {
     title: 'FB Likes', value: 'fbLikes',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'FB Shares', value: 'fbShares',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'FB Comments', value: 'fbComments',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'TW Mentions', value: 'twMentions',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'TW Retweets', value: 'twRetweets',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'TW Sentiment-Very Positive', value: 'twSentimentVeryPositive',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'TW Sentiment-Positive', value: 'twSentimentPositive',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'TW Sentiment-Neutral', value: 'twSentimentNeutral',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'TW Sentiment-Negative', value: 'twSentimentNegative',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'TW Sentiment-VeryNegative', value: 'twSentimentVeryNegative',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'TW Sentiment-Unknown', value: 'twSentimentUnknown',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'G+ Shares', value: 'googleShares',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'Estimated View', value: 'imEstimatedViews',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'Social Score', value: 'imSocialScore',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   },
   {
     title: 'Regular Score', value: 'imRegularScore',
-    template: genreic_template
+    template: genreic_template,
+    className: 'matric'
   }
 ];
