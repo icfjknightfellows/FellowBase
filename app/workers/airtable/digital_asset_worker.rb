@@ -34,6 +34,6 @@ class Airtable::DigitalAssetWorker
       end
     end
 
-    ImpactMonitorItemWorker.perform_at(1.second.from_now)
+    ImpactMonitorItemWorker.perform_at(5.second.from_now)
   end
 end

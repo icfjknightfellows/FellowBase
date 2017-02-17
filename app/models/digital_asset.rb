@@ -25,7 +25,7 @@ class DigitalAsset < ActiveRecord::Base
   self.primary_key = "digital_asset_id"
   #ATTRIBUTES
   #ASSOCIATIONS
-  # has_many :trackable_metrics, primary_key: "digital_asset_id", foreign_key: "digital_asset_id", dependent: :destroy
+  # has_many :trackable_metrics, primary_key: "digital_asset_id", foreign_key: "asset_id", dependent: :destroy
   #VALIDATIONS
   #CALLBACKS
 
@@ -37,6 +37,11 @@ class DigitalAsset < ActiveRecord::Base
   after_update :upload_errors_to_airtable, if: :custom_errors_changed?
 
   before_update :update_asset_url_in_impact_monitor, if: :asset_changed?
+
+  #SCOPE
+
+  scope :with_no_data, -> { where.not(custom_errors: "") }
+  scope :with_data, -> { where(custom_errors: "") }
 
   #FUNCTIONS
 
@@ -59,14 +64,6 @@ class DigitalAsset < ActiveRecord::Base
         if response[:success]
           attrs[:item_id] = response[:item_id]
           asset = DigitalAsset.create(attrs)
-          sleep 0.5.second
-          TrackableMetricSocialShareWorker.perform_at(1.second.from_now, asset.item_id)
-          TrackableMetricTwitterWorker.perform_at(2.second.from_now, asset.item_id)
-          ItemOverviewWorker.perform_at(3.second.from_now, asset.item_id)
-
-          # Update the airtable data.
-          asset.update_attribute(:last_requested_unixtime, Time.now.to_i)
-          update_time(asset.digital_asset_id, asset.last_requested_unixtime, asset.last_requested_unixtime)
         end
       end
       asset
