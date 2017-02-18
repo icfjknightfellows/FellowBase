@@ -17,3 +17,7 @@
 //= require ./vendors/jquery.noty.packaged.min.js
 //= require ./app/notiy.js
 //= require_tree .
+
+$(document).on('turbolinks:load', function() {
+  $('[data-toggle="tooltip"]').tooltip();
+});

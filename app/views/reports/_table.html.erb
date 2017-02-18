@@ -1,0 +1,25 @@
+<table class="table">
+  <thead>
+    <th></th>
+    <th>Asset</th>
+    <th>Last tried <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-title="Last update requested by the system"></span></th>
+    <th>Data freshness <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-title="Last data updated by impact monitor"></span></th>
+    <% if show_errors %>
+      <th>Errors</th>
+    <% end %>
+  </thead>
+  <tbody>
+    <% links.each do |da| %>
+      <tr>
+        <td><%= indicator(da.custom_errors, da.tracked).html_safe %></td>
+        <td><a href="<%= da.asset %>" target="_blank"><%= da.asset %></a></td>
+        <td class="date-text"><%= da.last_requested_unixtime.present? ? time_ago_in_words(Time.at(da.last_requested_unixtime).to_datetime) + " ago" : "Not requested" %></td>
+        <td class="date-text"><%= da.last_update_unixtime.present? ? time_ago_in_words(Time.at(da.last_update_unixtime).to_datetime) + " ago" : "Not updated" %></td>
+        <% if show_errors %>
+          <td><%= da.custom_errors %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate links %>

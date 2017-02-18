@@ -56,11 +56,11 @@
 	font-family: 'Droid Sans Mono', monospace !important;
 }
 
-.reactPivot-hideColumn{
-	// display: none !important;
-}
-
 .reactPivot-csvExport, .reactPivot-columnControl{
 	text-align: right;
 	padding-top: 3px;
+}
+
+.custom-table {
+  width: auto;
 }

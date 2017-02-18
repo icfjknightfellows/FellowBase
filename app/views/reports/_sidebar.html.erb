@@ -1,0 +1,25 @@
+<br>
+<br>
+
+<%= search_form_for @q, url: digital_asset_search_path, html: { method: :get } do |f| %>
+  <%= f.label :asset_cont %>
+  <%= f.search_field :asset_cont %>
+  <%= f.submit %>
+<% end %>
+
+<hr>
+
+<ul class="nav nav-pills nav-stacked">
+  <li class="<%= action_name == 'all' ? 'active' : nil %>">
+    <a href=<%= all_digital_asset_path %>> All</a>
+  </li>
+  <li class="<%= action_name == 'errored' ? 'active' : nil %>">
+    <a href=<%= errored_digital_asset_path %>> Errored</a>
+  </li>
+  <li class="<%= action_name == 'successful' ? 'active' : nil %>">
+    <a href=<%= successful_digital_asset_path %>> Successful</a>
+  </li>
+  <li class="<%= action_name == 'with_no_data' ? 'active' : nil %>">
+    <a href=<%= digital_asset_with_no_data_path %>>With no data</a>
+  </li>
+</ul>

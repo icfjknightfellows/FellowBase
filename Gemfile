@@ -18,6 +18,7 @@ gem 'puma'
 gem 'turbolinks'
 gem 'exception_notification'
 gem 'airtable', :git => 'https://github.com/Airtable/airtable-ruby.git', :branch => 'master'
+gem 'ransack'
 
 # Bootstrap
 gem 'bootstrap-sass', '~> 3.3.6'
