@@ -26,7 +26,7 @@ class TrackableMetricSocialShareWorker
       TrackableMetric.create_or_update(item_id, asset_id, "google", "shares", response["google_shares"])
     else
       errors = asset.custom_errors || ""
-      errors = errors == "" ? "Impact Monitor: #{response["message"]} for social share data." : "#{errors}\n\n Impact Monitor: #{response["message"]} for social share data."
+      errors = errors == "" ? "Impact Monitor: #{response["message"]} (item: social_shares API)" : "#{errors}\n\n Impact Monitor: #{response["message"]} (item: social_shares API)"
       asset.update_attribute(:custom_errors, errors)
     end
   end

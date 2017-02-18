@@ -26,22 +26,22 @@ class DigitalAsset < ActiveRecord::Base
   #ATTRIBUTES
   #ASSOCIATIONS
   # has_many :trackable_metrics, primary_key: "digital_asset_id", foreign_key: "asset_id", dependent: :destroy
+
   #VALIDATIONS
+
   #CALLBACKS
-
   after_destroy :delete_item_from_channel
+  before_create :add_item_to_impact_monitor
 
-  after_update :update_dates, if: :last_update_unixtime_changed?
-  after_update :initiate_tracker_worker, if: :last_update_unixtime_changed?
+  before_update :add_item_to_impact_monitor
+  before_update :update_asset_url_in_impact_monitor
 
-  after_update :upload_errors_to_airtable, if: :custom_errors_changed?
-
-  before_update :update_asset_url_in_impact_monitor, if: :asset_changed?
+  after_update  :initiate_tracker_worker
 
   #SCOPE
-
   scope :with_no_data, -> { where.not(custom_errors: "") }
   scope :with_data, -> { where(custom_errors: "") }
+  scope :untracked, -> { where(tracked: false) }
 
   #FUNCTIONS
 
@@ -59,103 +59,65 @@ class DigitalAsset < ActiveRecord::Base
         )
       else
         # Create
-        attrs[:tracked] = true;
-        response = set_item_to_channel(attrs[:digital_asset_id], attrs[:asset])
-        if response[:success]
-          attrs[:item_id] = response[:item_id]
-          asset = DigitalAsset.create(attrs)
-        end
+        asset = DigitalAsset.create(attrs)
       end
       asset
     end
-
-    def update_time(asset_id, by_pykih, by_impact_monitor)
-      # by_pykih and by_impact_monitor are timestamps.
-      by_pykih = Time.at(by_pykih).to_datetime
-      by_impact_monitor = Time.at(by_impact_monitor).to_datetime
-
-      Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, asset_id, {
-        "last update requested by pykih" => by_pykih,
-        "last data updated by impact monitor" => by_impact_monitor,
-      })
-    end
-
-    private
-
-      def set_item_to_channel(asset_id, asset)
-        impact_monitor_item = ImpactMonitorApi.add_monitored_item(asset)
-        if impact_monitor_item["success"]
-          item_obj = impact_monitor_item["items"]
-          i_o = item_obj.first
-          if i_o["success"]
-            monitored_item_id = i_o["monitored_item_id"]
-           Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, asset_id, {
-              "tracked" => true
-            })
-            return { success: true, item_id: monitored_item_id }
-          else
-            Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, asset_id, {
-              "tracked" => false,
-              "last update requested by pykih" => Time.now,
-              "errors" => "Impact Monitor: Could not add the link."
-            })
-            return { success: false }
-          end
-        else
-          Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, asset_id, {
-            "tracked" => false,
-            "last update requested by pykih" => Time.now,
-            "errors" => "Impact Monitor: Could not add the link."
-          })
-          return { success: false }
-        end
-      end
   end
 
   #PRIVATE
   private
 
     def delete_item_from_channel
-      if self.item_id.present?
+      if self.tracked == true and self.item_id.present?
         response = ImpactMonitorApi.delete_item(self.item_id)
-        Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, self.digital_asset_id, {
-          "tracked" => false,
-          "errors" => "Removing the item form the system."
-        })
+      end
+      true
+    end
+
+    def add_item_to_impact_monitor
+      if self.tracked == false or tracked.nil?
+        impact_monitor_item = ImpactMonitorApi.add_monitored_item(self.asset)
+        if impact_monitor_item["success"]
+          item_obj = impact_monitor_item["items"]
+          i_o = item_obj.first
+          if i_o["success"]
+            monitored_item_id = i_o["monitored_item_id"]
+            self.item_id = monitored_item_id
+            self.tracked = true
+          else
+            self.tracked = false
+            self.custom_errors = "Impact Monitor: Could not add the link."
+          end
+        else
+          self.tracked = false
+          self.custom_errors = "Impact Monitor: Could not add the link."
+        end
       end
       true
     end
 
     def update_asset_url_in_impact_monitor
-      response = ImpactMonitorApi.update_item(self.item_id, self.asset)
-      if response["success"]
-        return true
-      else
-        return false
+      if self.asset_changed? and self.tracked == true
+        response = ImpactMonitorApi.update_item(self.item_id, self.asset)
+        if response["success"]
+          return true
+        else
+          return false
+        end
       end
       true
     end
 
-    def update_dates
-      self.update_column(:last_requested_unixtime, Time.now.to_i)
-      DigitalAsset.update_time(self.digital_asset_id, self.last_requested_unixtime, self.last_update_unixtime)
-      true
-    end
-
     def initiate_tracker_worker
-      self.update_column(:custom_errors, "")
-      # Initiate the workers.
-      TrackableMetricSocialShareWorker.perform_at(1.second.from_now, self.item_id)
-      TrackableMetricTwitterWorker.perform_at(2.second.from_now, self.item_id)
-      ItemOverviewWorker.perform_at(3.second.from_now, self.item_id)
+      if self.last_update_unixtime_changed? and self.tracked == true
+        self.update_column(:custom_errors, "")
+        self.update_column(:last_requested_unixtime, Time.now.to_i)
+        # Initiate the workers.
+        TrackableMetricSocialShareWorker.perform_at(1.second.from_now, self.item_id)
+        TrackableMetricTwitterWorker.perform_at(2.second.from_now, self.item_id)
+        ItemOverviewWorker.perform_at(3.second.from_now, self.item_id)
+      end
       true
     end
-
-    def upload_errors_to_airtable
-      Airtable::UpdateDigitalAssetWorker.perform_at(1.second.from_now, self.digital_asset_id, {
-        "errors" => self.custom_errors
-      })
-      true
-    end
-
 end

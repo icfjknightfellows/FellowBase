@@ -20,7 +20,7 @@ class ItemOverviewWorker
       TrackableMetric.create_or_update(item_id, asset_id, "impact_monitor", "estimated_views", item_overview["estimated_views"] || 0)
     else
       errors = asset.custom_errors || ""
-      errors = errors == "" ? "Impact Monitor: #{response["message"]} for social_score, regular_score and estimated_views." : "#{errors}\n\n Impact Monitor: #{response["message"]}  for social_score, regular_score and estimated_views."
+      errors = errors == "" ? "Impact Monitor: #{response["message"]} (item: overview API)" : "#{errors}\n\n Impact Monitor: #{response["message"]}  (item: overview API)"
       asset.update_attribute(:custom_errors, errors)
     end
   end
