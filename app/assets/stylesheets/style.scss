@@ -13,8 +13,17 @@ body{
   font-family: 'raleway', sans-serif;
 }
 
-.navbar.navbar-default{
+.navbar.navbar-inverse{
   margin-bottom: 0px !important;
+  border-radius: 0px !important;
+}
+
+.navbar-inverse .navbar-brand{
+  color: white !important;
+}
+
+.navbar-inverse .navbar-nav > li > a{
+  color: white !important;
 }
 
 .logo{
