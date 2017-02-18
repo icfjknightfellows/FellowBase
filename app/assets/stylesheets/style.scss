@@ -71,3 +71,23 @@ body{
   background: white;
   padding: 15px;
 }
+
+.digital-asset-indicators {
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.successful {
+  background-color: #009688;
+}
+
+.errored {
+  background-color: #F44336;
+}
+
+.no-data {
+  background-color: #aeaeae;
+}

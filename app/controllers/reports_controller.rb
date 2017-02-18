@@ -5,8 +5,9 @@ class ReportsController < ApplicationController
   end
 
   def digital_assets
-    @links_with_data = DigitalAsset.with_data
-    @links_with_no_data = DigitalAsset.with_no_data
+    @links_successful = DigitalAsset.successful
+    @links_with_no_data = DigitalAsset.with_no_data.where.not(tracked: false)
+    @links_errored = DigitalAsset.errored
   end
 
 end

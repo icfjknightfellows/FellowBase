@@ -12,6 +12,9 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <li>
+          <%= link_to "Data Puller", digital_assets_path %>
+        </li>
+        <li>
           <% if current_user.present? %>
             <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
           <% else %>

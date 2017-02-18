@@ -5,12 +5,15 @@
 
 var rows = <%= @report_data.html_safe %>;
 
-ReactPivot(document.getElementById('report_container'), {
-  rows: rows,
-  dimensions: dimensions,
-  calculations: calculations,
-  reduce: reduce,
-  tableClassName: "table table-striped"
+$(document).on('turbolinks:load', function() {
+  ReactPivot(document.getElementById('report_container'), {
+    rows: rows,
+    dimensions: dimensions,
+    calculations: calculations,
+    reduce: reduce,
+    tableClassName: "table table-striped"
+  });
 });
+
 
 </script>
