@@ -77,7 +77,7 @@ class DigitalAsset < ActiveRecord::Base
 
     def add_item_to_impact_monitor
       if self.tracked == false or tracked.nil?
-        self.update_column(:last_requested_unixtime, Time.now.to_i)
+        self.last_requested_unixtime = Time.now.to_i
         impact_monitor_item = ImpactMonitorApi.add_monitored_item(self.asset)
         if impact_monitor_item["success"]
           item_obj = impact_monitor_item["items"]
