@@ -160,3 +160,25 @@ var calculations = [
     className: 'matric'
   }
 ];
+
+
+var onDimensionChange = function (e) {
+  $.ajax({
+    url: location.origin + "/user/set_selected_dimensions",
+    type:'post',
+    data: {
+      user_id: user_id,
+      selected_dimensions: e.selectedDimensions.join(",")
+    },
+    success: function(response) {
+      if (response.success) {
+        console.log("Successfully updated users selected dimensions.");
+      } else {
+        console.error("Failed updated users selected dimensions.");
+      }
+    },
+    error: function(response) {
+      console.error("Failed updated users selected dimensions.");
+    }
+});
+}

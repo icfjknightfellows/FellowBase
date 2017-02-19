@@ -5,6 +5,8 @@ class ReportsController < ApplicationController
 
   def index
     @report_data = Report.all.to_json
+    @selecte_dimensions = current_user.selected_dimensions
+    @user_id = current_user.user_id
   end
 
   def all

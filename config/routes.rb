@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get '/links/with-no-data', to: "reports#with_no_data", as: "digital_asset_with_no_data"
   get '/links/search', to: "reports#search", as: "digital_asset_search"
 
+  post '/user/set_selected_dimensions', to: "static_pages#set_selected_dimensions", as: "set_selected_dimensions"
 
   root 'static_pages#index'
 

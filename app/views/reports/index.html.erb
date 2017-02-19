@@ -3,16 +3,29 @@
 
 <script type="text/javascript">
 
-var rows = <%= @report_data.html_safe %>;
+var rows = <%= @report_data.html_safe %>,
+  selected_dimensions = "<%= @selecte_dimensions %>",
+  user_id = "<%= @user_id.html_safe %>",
+  react_pivot_options;
+
+selected_dimensions = selected_dimensions.split(",").filter(function(e) {return e !== ""})
+
+react_pivot_options = {
+  rows: rows,
+  dimensions: dimensions,
+  calculations: calculations,
+  reduce: reduce,
+  tableClassName: "table table-striped",
+  onDimensionChange: onDimensionChange
+};
+
+
+if (selected_dimensions && selected_dimensions.length > 0) {
+  react_pivot_options.activeDimensions = selected_dimensions;
+}
 
 $(document).on('turbolinks:load', function() {
-  ReactPivot(document.getElementById('report_container'), {
-    rows: rows,
-    dimensions: dimensions,
-    calculations: calculations,
-    reduce: reduce,
-    tableClassName: "table table-striped"
-  });
+  ReactPivot(document.getElementById('report_container'), react_pivot_options);
 });
 
 

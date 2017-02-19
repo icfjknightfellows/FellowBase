@@ -5,5 +5,5 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-u = User.new(name: "Pykih Administrator", email: "admin@pykih.com", role: "admin", password: ENV["PYKIH_ADMIN_PASSWORD"])
+u = User.new(user_id: SecureRandom.hex(10), name: "Pykih Administrator", email: "admin@pykih.com", role: "admin", password: ENV["PYKIH_ADMIN_PASSWORD"])
 u.save(validate: false)
