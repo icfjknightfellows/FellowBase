@@ -1,8 +1,9 @@
-<div class="col-sm-12">
-  <div class="col-sm-2">
+<div class="col-sm-12 content-area">
+  <div class="col-sm-2 sidebar-area">
     <%= render partial: "sidebar" %>
   </div>
-  <div class="col-sm-10">
+  <div class="col-sm-10 table-area">
+  	<div class="page-title">Showing <strong>Errored</strong></div>
     <%= render partial: "table", locals: {links: @links, show_errors: true}%>
   </div>
 </div>
