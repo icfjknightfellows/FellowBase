@@ -25,7 +25,7 @@ body{
 }
 
 .navbar-inverse .navbar-nav > li > a{
-  color: white !important;
+  color: white;
 }
 
 .logo{
@@ -208,8 +208,6 @@ td.signal-area{
   font-weight: bold;
 }
 
-
-
 .nav-pills a:hover{
   background: #f9f9f9 !important;
 }
@@ -234,4 +232,44 @@ td.signal-area{
 
 .indication-dot-grey{
   background: #aeaeae;
+}
+
+.nav-btn a{
+  // background: white !important;
+  color: white !important;
+  border: 1px solid white;
+  padding: 6px 15px !important;
+  border-radius: 4px;
+  margin-top: 8px;
+  margin-right: 10px;
+  transition: 0.5s ease-in;
+}
+
+.nav-btn a:hover{
+  background: white !important;
+  color: black !important;
+}
+
+.pagination{
+  width: 100%;
+  text-align: center;
+  background: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 50px;
+}
+
+.pagination .page{
+  font-size: 15px;
+  text-align: center;
+  margin-right: 10px;
+  font-family: sans-serif;
+  color: black !important;
+}
+
+.pagination .page.current{
+  font-weight: bold;
+}
+
+.pagination .next{
+  margin-right: 10px;
 }
