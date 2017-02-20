@@ -1,8 +1,17 @@
 <div class="container signin-page">
-  <div class='col-sm-4 col-sm-offset-4 logo'></div>
+  <div class="col-sm-8"></div>
+  <div class='col-sm-4 logo'></div>
   <div class="clearfix"></div>
-  <div class='col-sm-4 col-sm-offset-4 card'>
-    <h2>Forgot your password?</h2>
+  <div class="col-sm-8">
+    <img src="http://newsnetwork-bd.org/newsletter/wp-content/uploads/2016/09/icfj-1.png" width="70px;">
+    <br>
+    <br>
+    <div class="page-title" style="font-weight: bold; font-size: 48px; color: black;">Impact Tracker</div>
+    <div class="credits">Made with <span class='heart'>&#9829</span> for <a href="http://www.icfj.org/" target="blank">ICFJ</a> by <a href="https://pykih.com/" target="blank">Pykih</a></div>
+  </div>
+  <div class='col-sm-4'>
+    <div class="card" style="width: 100%;">
+    <h2>Forgot password?</h2>
     <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
       <%= devise_error_messages! %>
 
@@ -12,8 +21,9 @@
       </div>
 
       <div class="actions forgot-password-submit">
-        <%= f.submit "Send me reset password instructions" %>
+        <%= f.submit "Get reset instructions" %>
       </div>
     <% end %>
+    </div>
   </div>
 </div>

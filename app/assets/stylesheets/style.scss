@@ -35,7 +35,9 @@ body{
 
 .signin-page .card{
   margin-top: 20px;
-  box-shadow: 0px 30px 30px 0px #c6c6c6;
+  box-shadow: 0px 0px 0px 0px #c6c6c6;
+  border: 0px;
+  margin-bottom: 10px;
 }
 
 .signin-page input[type=submit] {
@@ -261,7 +263,8 @@ td.signal-area{
 .pagination .page{
   font-size: 15px;
   text-align: center;
-  margin-right: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
   font-family: sans-serif;
   color: black !important;
 }
@@ -271,5 +274,56 @@ td.signal-area{
 }
 
 .pagination .next{
-  margin-right: 10px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.signin-page .card{
+  // background: black;
+  color: black !important;
+  border-left: 1px solid #ddd;
+}
+
+.signin-page h2{
+  margin-bottom: 35px;
+  // font-weight: bold;
+}
+
+.signin-page input[type=submit]{
+  color: white;
+  background: black;
+}
+
+
+input:-webkit-autofill{
+  background: white !important;
+}
+.signin-page a{
+  color: black;
+}
+
+.credits{
+  text-align: left;
+  font-size: 13px;
+  margin-top: 0px;
+}
+
+.credits a{
+  color: black;
+  font-weight: bold;
+  float: none;
+}
+
+.heart{
+  color: red;
+}
+
+.forgot-password-email input{
+  padding: 7px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+}
+
+.forgot-password-submit input{
+  border-radius: 3px;
 }
