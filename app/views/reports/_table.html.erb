@@ -16,7 +16,7 @@
         <td class="date-text"><%= da.last_requested_unixtime.present? ? time_ago_in_words(Time.at(da.last_requested_unixtime).to_datetime) + " ago" : "Not requested" %></td>
         <td class="date-text"><%= da.last_update_unixtime.present? ? time_ago_in_words(Time.at(da.last_update_unixtime).to_datetime) + " ago" : "Not updated" %></td>
         <% if show_errors %>
-          <td class="errors-column"><%= da.custom_errors %></td>
+          <td class="errors-column" title= "<%= da.custom_errors %>"><%= da.custom_errors %></td>
         <% end %>
       </tr>
     <% end %>

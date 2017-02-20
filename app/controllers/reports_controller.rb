@@ -2,6 +2,7 @@ class ReportsController < ApplicationController
 
   before_action :authenticate_user!
   before_action :set_search_query, except: [:index]
+  before_action :set_highlight, except: [:index]
 
   def index
     @report_data = Report.all.to_json
@@ -26,6 +27,7 @@ class ReportsController < ApplicationController
   end
 
   def search
+    @search_text = params[:q]["asset_cont"]
     @links = @q.result.order(custom_errors: :desc).page(params[:page]).per(20)
   end
 
@@ -33,6 +35,10 @@ class ReportsController < ApplicationController
 
     def set_search_query
       @q = DigitalAsset.ransack(params[:q])
+    end
+
+    def set_highlight
+      @highlight = true
     end
 
 end
