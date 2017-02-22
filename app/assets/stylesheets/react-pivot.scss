@@ -26,6 +26,10 @@
 	margin-top:0px !important;
 }
 
+.deminsion{
+	vertical-align: top;
+}
+
 .deminsion span{
 	display: inline-block;
 	width: 200px;
@@ -40,11 +44,12 @@
 .matric{
 	padding: 2px 10px;
 	text-align: right !important;
+	vertical-align: top;
 }
 
 .matric span{
 	display: inline-block;
-	width: 100px;
+	width: 110px;
 	overflow-x: hidden;
 	text-align: right;
 	font-family: 'Droid Sans Mono', monospace !important;
@@ -83,4 +88,14 @@
 
 .reactPivot-hideColumn {
   opacity: 1 !important;
+}
+
+th:hover .reactPivot-hideColumn{
+	margin-right: 0px !important;
+	margin-bottom: 0px !important;
+	font-weight: bold;
+}
+
+th.deminsion span{
+	float: left;
 }
