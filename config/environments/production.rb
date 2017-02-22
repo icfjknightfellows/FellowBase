@@ -108,6 +108,7 @@ Rails.application.configure do
     :sender_address => %{"notifier" <notifier@impact-tracker.com>},
     :exception_recipients => ENV['SEND_EXCEPTION_TO_EMAILS'].split(" ")
   }
+  ExceptionNotifier::Rake.configure
 
   AIRTABLE_BASE_URL = "https://api.airtable.com/v0/#{ENV['AIRTABLE_APP_KEY']}"
   IMPACT_MONITOR_URL = "http://impactmonitor.net/app/api"
