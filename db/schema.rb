@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170219113007) do
+ActiveRecord::Schema.define(version: 20170222091222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 20170219113007) do
     t.bigint   "last_requested_unixtime"
     t.text     "custom_errors"
     t.boolean  "tracked"
+    t.index ["digital_asset_id"], name: "digital_assets_digital_asset_id", using: :btree
+    t.index ["event_id"], name: "digital_assets_event_id", using: :btree
   end
 
   create_table "events", force: :cascade do |t|
@@ -44,6 +46,7 @@ ActiveRecord::Schema.define(version: 20170219113007) do
     t.text     "topics",          default: [],              array: true
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
+    t.index ["event_id"], name: "events_event_id", using: :btree
   end
 
   create_table "projects", force: :cascade do |t|
@@ -53,6 +56,7 @@ ActiveRecord::Schema.define(version: 20170219113007) do
     t.text     "partner_ids", default: [],              array: true
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["project_id"], name: "projects_project_id", using: :btree
   end
 
   create_table "ref_impact_types", force: :cascade do |t|
@@ -61,6 +65,7 @@ ActiveRecord::Schema.define(version: 20170219113007) do
     t.string   "genre"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.index ["ref_impact_type_id"], name: "ref_impact_types_ref_impact_type_id", using: :btree
   end
 
   create_table "ref_partners", force: :cascade do |t|
@@ -68,6 +73,7 @@ ActiveRecord::Schema.define(version: 20170219113007) do
     t.string   "name"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.index ["ref_partner_id"], name: "ref_partners_ref_partner_id", using: :btree
   end
 
   create_table "trackable_metrics", force: :cascade do |t|
@@ -78,6 +84,8 @@ ActiveRecord::Schema.define(version: 20170219113007) do
     t.integer  "value"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["asset_id"], name: "trackable_metrics_trackable_metrics_asset_id", using: :btree
+    t.index ["item_id"], name: "trackable_metrics_trackable_metrics_item_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -98,6 +106,7 @@ ActiveRecord::Schema.define(version: 20170219113007) do
     t.text     "selected_dimensions",    default: ""
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["user_id"], name: "users_user_id", using: :btree
   end
 
 end

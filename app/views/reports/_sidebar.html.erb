@@ -1,7 +1,7 @@
 <div class="search-area">
-  <%= search_form_for @q, url: digital_asset_search_path, html: { method: :get } do |f| %>
+  <%= search_form_for q, url: digital_asset_search_path, html: { method: :get } do |f| %>
     <div class="page-title">Search</div>
-    <%= f.search_field :asset_cont, class: "content-asset-search", placeholder: "Asset Contains" %><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+    <%= f.search_field :asset_cont, class: "content-asset-search", placeholder: "Asset Contains", required: true %><span class="glyphicon glyphicon-search" aria-hidden="true"></span>
     <%= f.submit "Search", class: "custom-btn" %>
     <% if action_name == 'search' %>
       <%= link_to "Reset", all_digital_asset_path, class: 'clear-search' %>

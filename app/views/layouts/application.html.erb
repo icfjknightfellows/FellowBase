@@ -8,7 +8,7 @@
 </head>
 <body>
   <% unless controller_name == 'sessions'%>
-    <%= render partial: "layouts/header" %>
+    <%= render partial: "layouts/header", locals: { highlight: @highlight } %>
   <% end  %>
   <div class='body'>
     <%= yield %>

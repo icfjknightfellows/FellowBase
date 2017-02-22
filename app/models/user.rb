@@ -17,7 +17,7 @@
 #  role                   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  selected_dimensions    :text
+#  selected_dimensions    :text             default("")
 #
 
 class User < ApplicationRecord

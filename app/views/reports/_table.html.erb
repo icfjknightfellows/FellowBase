@@ -13,8 +13,24 @@
       <tr>
         <td class="signal-area"><%= indicator(da.custom_errors, da.tracked).html_safe %></td>
         <td><a href="<%= da.asset %>" target="_blank"><%= da.asset %></a></td>
-        <td class="date-text"><%= da.last_requested_unixtime.present? ? time_ago_in_words(Time.at(da.last_requested_unixtime).to_datetime) + " ago" : "Not requested" %></td>
-        <td class="date-text"><%= da.last_update_unixtime.present? ? time_ago_in_words(Time.at(da.last_update_unixtime).to_datetime) + " ago" : "Not updated" %></td>
+        <td class="date-text">
+        <% if da.last_requested_unixtime.present? %>
+          <% time = Time.at(da.last_requested_unixtime) %>
+          <div class="timeago" title="<%= time.getutc.iso8601 %>">
+            <%= time.to_s %>
+          </div>
+        <% else %>
+          <%= "Not requested" %>
+        <% end %>
+        <td class="date-text">
+          <% if da.last_update_unixtime.present? %>
+            <% time = Time.at(da.last_update_unixtime) %>
+            <div class="timeago" title="<%= time.getutc.iso8601 %>">
+              <%= time.to_s %>
+            </div>
+          <% else %>
+            <%= "Not updated" %>
+          <% end %>
         <% if show_errors %>
           <td class="errors-column" title= "<%= da.custom_errors %>"><%= da.custom_errors %></td>
         <% end %>
