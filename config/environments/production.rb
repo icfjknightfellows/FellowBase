@@ -102,6 +102,13 @@ Rails.application.configure do
     :from => ENV['EMAIL_FROM_ADDRESS']
   }
 
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+  :email => {
+    :email_prefix => "[IMPACT-TRACKER] ",
+    :sender_address => %{"notifier" <notifier@impact-tracker.com>},
+    :exception_recipients => %w{ENV['SEND_EXCEPTION_TO_EMAILS']}
+  }
+
   AIRTABLE_BASE_URL = "https://api.airtable.com/v0/#{ENV['AIRTABLE_APP_KEY']}"
   IMPACT_MONITOR_URL = "http://impactmonitor.net/app/api"
 end
