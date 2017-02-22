@@ -106,7 +106,7 @@ Rails.application.configure do
   :email => {
     :email_prefix => "[IMPACT-TRACKER] ",
     :sender_address => %{"notifier" <notifier@impact-tracker.com>},
-    :exception_recipients => %w{ENV['SEND_EXCEPTION_TO_EMAILS']}
+    :exception_recipients => ENV['SEND_EXCEPTION_TO_EMAILS'].split(" ")
   }
 
   AIRTABLE_BASE_URL = "https://api.airtable.com/v0/#{ENV['AIRTABLE_APP_KEY']}"
