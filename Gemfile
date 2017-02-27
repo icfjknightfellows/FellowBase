@@ -20,6 +20,7 @@ gem 'exception_notification'
 gem 'airtable', :git => 'https://github.com/Airtable/airtable-ruby.git', :branch => 'master'
 gem 'ransack'
 gem 'exception_notification'
+gem 'exception_notification-rake', '~> 0.3.0'
 
 # Bootstrap
 gem 'bootstrap-sass', '~> 3.3.6'
