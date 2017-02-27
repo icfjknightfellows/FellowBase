@@ -28,7 +28,8 @@ class Airtable::DigitalAssetWorker
           headline: i[:headline],
           genre: i[:genre],
           publication: i[:publication],
-          event_id: i["event (events)"].first
+          event_id: i["event (events)"].first,
+          post_type: i["Post Type"]
         }
         asset = DigitalAsset.create_or_update(attrs)
       end

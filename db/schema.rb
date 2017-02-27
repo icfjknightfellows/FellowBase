@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222091222) do
+ActiveRecord::Schema.define(version: 20170227082753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,11 +26,12 @@ ActiveRecord::Schema.define(version: 20170222091222) do
     t.string   "_type"
     t.bigint   "creation_unixtime"
     t.bigint   "last_update_unixtime"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.bigint   "last_requested_unixtime"
     t.text     "custom_errors"
     t.boolean  "tracked"
+    t.string   "post_type",               default: ""
     t.index ["digital_asset_id"], name: "digital_assets_digital_asset_id", using: :btree
     t.index ["event_id"], name: "digital_assets_event_id", using: :btree
   end

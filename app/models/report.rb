@@ -17,6 +17,7 @@
 #  project_name      :string
 #  digital_asset_id  :string
 #  asset             :text
+#  post_type         :string
 #  genre             :string
 #  metric_type       :string
 #  value             :integer

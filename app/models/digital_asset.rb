@@ -18,6 +18,7 @@
 #  last_requested_unixtime :integer
 #  custom_errors           :text
 #  tracked                 :boolean
+#  post_type               :string           default("")
 #
 
 class DigitalAsset < ActiveRecord::Base
@@ -55,7 +56,8 @@ class DigitalAsset < ActiveRecord::Base
           headline: attrs[:headline],
           genre: attrs[:genre],
           publication: attrs[:publication],
-          event_id: attrs[:event_id]
+          event_id: attrs[:event_id],
+          post_type: attrs[:post_type]
         )
       else
         # Create

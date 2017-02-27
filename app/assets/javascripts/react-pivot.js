@@ -6,8 +6,11 @@ var dimensions = [
   {value: 'partner_name', title: 'Partner' , className: 'deminsion'},
   {value: 'event_name', title: 'Event Name' , className: 'deminsion'},
   {value: 'impact_type', title: 'Impact Type' , className: 'deminsion'},
+  {value: 'impact_type_genre', title: 'Impact Type Genre' , className: 'deminsion'},
   {value: 'media', title: 'Media' , className: 'deminsion'},
-  {value: 'topic', title: 'Topic' , className: 'deminsion'}
+  {value: 'topic', title: 'Topic' , className: 'deminsion'},
+  {value: 'asset', title: 'Digital Asset' , className: 'deminsion'},
+  {value: 'post_type', title: 'Post Type' , className: 'deminsion'}
 ];
 
 var reduce = function(row, memo) {

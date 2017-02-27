@@ -7,3 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 u = User.new(user_id: SecureRandom.hex(10), name: "Pykih Administrator", email: "admin@pykih.com", role: "admin", password: ENV["PYKIH_ADMIN_PASSWORD"])
 u.save(validate: false)
+
+u = User.new(user_id: SecureRandom.hex(10), name: "ICFJ Administrator", email: "knightfellowprojects@gmail.com", role: "admin", password: ENV["ICFJ_ADMIN_PASSWORD"])
+u.save(validate: false)
