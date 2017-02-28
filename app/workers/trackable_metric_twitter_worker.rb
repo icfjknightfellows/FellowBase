@@ -9,7 +9,7 @@ class TrackableMetricTwitterWorker
     response = ImpactMonitorApi.get_tweets(item_id)
 
     unless response["error"].present?
-      tweets = response["tweets"]
+      tweets = response["tweets"] || []  # Done as Impact monitor returns success as true but gives tweets as nil.
       sentiments = tweets.group_by{|x| x["sentiment"]}
       sentiments.map{|k,v| sentiments[k] = v.count}
 
