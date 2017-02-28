@@ -16,7 +16,11 @@ class ImpactMonitorApi
           }
         }
       )
-      return JSON.parse(response)
+      begin
+        return JSON.parse(response)
+      rescue Exception => e
+        return { success: false }
+      end
     end
 
     def list_channel_items
@@ -50,7 +54,11 @@ class ImpactMonitorApi
           }
         }
       )
-      return JSON.parse(response)
+      begin
+        return JSON.parse(response)
+      rescue Exception => e
+        return { success: false, message: I18n.t('API.malformed_response') }
+      end
     end
 
     def get_overview(item_id)
@@ -66,7 +74,11 @@ class ImpactMonitorApi
           }
         }
       )
-      return JSON.parse(response)
+      begin
+        return JSON.parse(response)
+      rescue Exception => e
+        return { success: false, message: I18n.t('API.malformed_response') }
+      end
     end
 
     def get_tweets(item_id)
@@ -82,7 +94,11 @@ class ImpactMonitorApi
           }
         }
       )
-      return JSON.parse(response)
+      begin
+        return JSON.parse(response)
+      rescue Exception => e
+        return { error: true, message: I18n.t('API.malformed_response') }
+      end
     end
 
     def get_social_shares(item_id)
@@ -98,7 +114,11 @@ class ImpactMonitorApi
           }
         }
       )
-      return JSON.parse(response)
+      begin
+        return JSON.parse(response)
+      rescue Exception => e
+        return { error: true, message: I18n.t('API.malformed_response') }
+      end
     end
 
     def delete_item(item_id)

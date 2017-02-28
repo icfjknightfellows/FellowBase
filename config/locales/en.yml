@@ -23,4 +23,6 @@ en:
   hello: "Hello world"
   messages:
     sign_in: "You need to sign in to continue."
+  API:
+    malformed_response: "malformed response."
 

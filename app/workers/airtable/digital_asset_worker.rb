@@ -24,7 +24,7 @@ class Airtable::DigitalAssetWorker
       if i[:asset].present?
         attrs = {
           digital_asset_id: i[:id],
-          asset: i[:asset],
+          asset: i[:asset].strip,
           headline: i[:headline],
           genre: i[:genre],
           publication: i[:publication],
