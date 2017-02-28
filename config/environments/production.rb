@@ -1,3 +1,4 @@
+require 'exception_notification/sidekiq'
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -104,8 +105,8 @@ Rails.application.configure do
 
   Rails.application.config.middleware.use ExceptionNotification::Rack,
   :email => {
-    :email_prefix => "[IMPACT-TRACKER] ",
-    :sender_address => %{"notifier" <notifier@impact-tracker.com>},
+    :email_prefix => "[Impact Tracker] ",
+    :sender_address => %{"Error Notifier" <notifier@impact-tracker.com>},
     :exception_recipients => ENV['SEND_EXCEPTION_TO_EMAILS'].split(" ")
   }
   ExceptionNotifier::Rake.configure
