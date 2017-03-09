@@ -36,12 +36,6 @@ var reduce = function(row, memo) {
         case "estimated_views":
           memo.imEstimatedViews = (memo.imEstimatedViews || 0) + parseFloat(row.value);
           break;
-        case "regular_score":
-          memo.imRegularScore = (memo.imRegularScore || 0) + parseFloat(row.value);
-          break;
-        case "social_score":
-          memo.imSocialScore = (memo.imSocialScore || 0) + parseFloat(row.value);
-          break;
       }
       break;
     case "twitter":
@@ -51,24 +45,6 @@ var reduce = function(row, memo) {
           break;
         case "retweets":
           memo.twRetweets = (memo.twRetweets || 0) + parseFloat(row.value)
-          break;
-        case "sentiment_very_positive":
-          memo.twSentimentVeryPositive = (memo.twSentimentVeryPositive || 0) + parseFloat(row.value)
-          break;
-        case "sentiment_positive":
-          memo.twSentimentPositive = (memo.twSentimentPositive || 0) + parseFloat(row.value)
-          break;
-        case "sentiment_neutral":
-          memo.twSentimentNeutral = (memo.twSentimentNeutral || 0) + parseFloat(row.value)
-          break
-        case "sentiment_negative":
-          memo.twSentimentNegative = (memo.twSentimentNegative || 0) + parseFloat(row.value)
-          break;
-        case "sentiment_very_negative":
-          memo.twSentimentVeryNegative = (memo.twSentimentVeryNegative || 0) + parseFloat(row.value)
-          break;
-        case "sentiment_unknown":
-          memo.twSentimentUnknown = (memo.twSentimentUnknown || 0) + parseFloat(row.value)
           break;
       }
       break;
@@ -113,52 +89,12 @@ var calculations = [
     className: 'matric'
   },
   {
-    title: 'TW Sentiment-Very Positive', value: 'twSentimentVeryPositive',
-    template: genreic_template,
-    className: 'matric'
-  },
-  {
-    title: 'TW Sentiment-Positive', value: 'twSentimentPositive',
-    template: genreic_template,
-    className: 'matric'
-  },
-  {
-    title: 'TW Sentiment-Neutral', value: 'twSentimentNeutral',
-    template: genreic_template,
-    className: 'matric'
-  },
-  {
-    title: 'TW Sentiment-Negative', value: 'twSentimentNegative',
-    template: genreic_template,
-    className: 'matric'
-  },
-  {
-    title: 'TW Sentiment-VeryNegative', value: 'twSentimentVeryNegative',
-    template: genreic_template,
-    className: 'matric'
-  },
-  {
-    title: 'TW Sentiment-Unknown', value: 'twSentimentUnknown',
-    template: genreic_template,
-    className: 'matric'
-  },
-  {
     title: 'G+ Shares', value: 'googleShares',
     template: genreic_template,
     className: 'matric'
   },
   {
     title: 'Estimated View', value: 'imEstimatedViews',
-    template: genreic_template,
-    className: 'matric'
-  },
-  {
-    title: 'Social Score', value: 'imSocialScore',
-    template: genreic_template,
-    className: 'matric'
-  },
-  {
-    title: 'Regular Score', value: 'imRegularScore',
     template: genreic_template,
     className: 'matric'
   }
